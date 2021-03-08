@@ -178,7 +178,6 @@ const imgTargets = document.querySelectorAll('img[data-src]');
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -400,3 +399,52 @@ slider();
 // [...h1.parentElement.children].forEach(function (el) {
 //   if (el !== h1) el.style.transform = 'scale(0.8)';
 // });
+
+const Person = function (firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // Never use => never to this
+  // this.calcAge = function () {
+  //   console.log(2021 - this.birthYear);
+  // };
+};
+
+const andrii = new Person('Andrii', 1990);
+console.log(andrii);
+
+// 1. New {} is created
+// 2. function is called, this = {}
+// 3. {} linked to prototype
+// 4. function automatically return {}
+
+const lesia = new Person('Lesia', 1991);
+console.log(lesia);
+
+console.log(lesia instanceof Person);
+
+// Prototypes
+console.log(Person.prototype);
+
+Person.prototype.calcAge = function () {
+  return 2021 - this.birthYear;
+};
+
+console.log(lesia.calcAge());
+
+console.log(`Andrii, you are ${andrii.calcAge()} years old :)`);
+
+console.log(andrii.__proto__);
+console.log(andrii.__proto__ === Person.prototype);
+console.log('--------');
+console.log(Person.prototype.isPrototypeOf(andrii));
+console.log(Person.prototype.isPrototypeOf(lesia));
+console.log(Person.prototype.isPrototypeOf(Person));
+console.log('--------');
+
+Person.prototype.species = 'Homo Sapiens';
+console.log(andrii, andrii.species);
+
+console.log(andrii.hasOwnProperty('firstName'));
+console.log(andrii.hasOwnProperty('species'));
