@@ -412,83 +412,115 @@ const Person = function (firstName, birthYear) {
 };
 
 const andrii = new Person('Andrii', 1990);
-console.log(andrii);
+// console.log(andrii);
 
 // 1. New {} is created
 // 2. function is called, this = {}
 // 3. {} linked to prototype
 // 4. function automatically return {}
 
-const lesia = new Person('Lesia', 1991);
-console.log(lesia);
+// const lesia = new Person('Lesia', 1991);
+// console.log(lesia);
 
-console.log(lesia instanceof Person);
+// console.log(lesia instanceof Person);
 
-// Prototypes
-console.log(Person.prototype);
+// // Prototypes
+// console.log(Person.prototype);
 
-Person.prototype.calcAge = function () {
-  return 2021 - this.birthYear;
-};
+// Person.prototype.calcAge = function () {
+//   return 2021 - this.birthYear;
+// };
 
-console.log(lesia.calcAge());
+// console.log(lesia.calcAge());
 
-console.log(`Andrii, you are ${andrii.calcAge()} years old :)`);
+// console.log(`Andrii, you are ${andrii.calcAge()} years old :)`);
 
-console.log(andrii.__proto__);
-console.log(andrii.__proto__ === Person.prototype);
-console.log('--------');
-console.log(Person.prototype.isPrototypeOf(andrii));
-console.log(Person.prototype.isPrototypeOf(lesia));
-console.log(Person.prototype.isPrototypeOf(Person));
-console.log('--------');
+// console.log(andrii.__proto__);
+// console.log(andrii.__proto__ === Person.prototype);
+// console.log('--------');
+// console.log(Person.prototype.isPrototypeOf(andrii));
+// console.log(Person.prototype.isPrototypeOf(lesia));
+// console.log(Person.prototype.isPrototypeOf(Person));
+// console.log('--------');
 
-Person.prototype.species = 'Homo Sapiens';
-console.log(andrii, andrii.species);
+// Person.prototype.species = 'Homo Sapiens';
+// console.log(andrii, andrii.species);
 
-console.log(andrii.hasOwnProperty('firstName'));
-console.log(andrii.hasOwnProperty('species'));
+// console.log(andrii.hasOwnProperty('firstName'));
+// console.log(andrii.hasOwnProperty('species'));
 
-console.log(andrii.__proto__.__proto__);
+// console.log(andrii.__proto__.__proto__);
 
-console.dir(Person.prototype.constructor);
+// console.dir(Person.prototype.constructor);
 
-const arr = [4, 56, 7, 7, 3, 4, 7, 1]; // new Array === []
-console.log(arr.__proto__);
-console.log(arr.__proto__ === Array.prototype);
+// const arr = [4, 56, 7, 7, 3, 4, 7, 1]; // new Array === []
+// console.log(arr.__proto__);
+// console.log(arr.__proto__ === Array.prototype);
 
-console.log(arr.__proto__.__proto__);
-console.log('---------');
-Array.prototype.unique = function () {
-  return [...new Set(this)];
-};
-console.log(arr.unique());
+// console.log(arr.__proto__.__proto__);
+// console.log('---------');
+// Array.prototype.unique = function () {
+//   return [...new Set(this)];
+// };
+// console.log(arr.unique());
 
-const h1 = document.querySelector('h1');
-console.dir(h1);
+// const h1 = document.querySelector('h1');
+// console.dir(h1);
 
-// Coding challenge
-const Car = function (make, speed) {
-  this.make = make;
-  this.speed = speed;
-};
-Car.prototype.accelerate = function () {
-  this.speed += 10;
-  console.log(`${this.make} is going at ${this.speed} km/h`);
-};
+// // Coding challenge
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// };
+// Car.prototype.accelerate = function () {
+//   this.speed += 10;
+//   console.log(`${this.make} is going at ${this.speed} km/h`);
+// };
 
-Car.prototype.brake = function () {
-  this.speed -= 5;
-  console.log(`${this.make} is going at ${this.speed} km/h`);
-};
+// Car.prototype.brake = function () {
+//   this.speed -= 5;
+//   console.log(`${this.make} is going at ${this.speed} km/h`);
+// };
 
-const bmw = new Car('BMW', 110);
-const audi = new Car('AUDI', 150);
+// const bmw = new Car('BMW', 110);
+// const audi = new Car('AUDI', 150);
 
-bmw.accelerate();
-bmw.accelerate();
-bmw.brake();
-bmw.accelerate();
+// bmw.accelerate();
+// bmw.accelerate();
+// bmw.brake();
+// bmw.accelerate();
 
-audi.accelerate();
-audi.brake();
+// audi.accelerate();
+// audi.brake();
+
+// ES6 Classes
+
+// class expression
+// const PersonCl = class {};
+
+// class declaration
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+}
+
+const dima = new PersonCl('Dima', 1988);
+console.log(dima);
+dima.calcAge();
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`Hey ${this.firstName}`);
+// };
+
+dima.greet();
