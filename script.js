@@ -448,3 +448,47 @@ console.log(andrii, andrii.species);
 
 console.log(andrii.hasOwnProperty('firstName'));
 console.log(andrii.hasOwnProperty('species'));
+
+console.log(andrii.__proto__.__proto__);
+
+console.dir(Person.prototype.constructor);
+
+const arr = [4, 56, 7, 7, 3, 4, 7, 1]; // new Array === []
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype);
+
+console.log(arr.__proto__.__proto__);
+console.log('---------');
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+console.log(arr.unique());
+
+const h1 = document.querySelector('h1');
+console.dir(h1);
+
+// Coding challenge
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+const bmw = new Car('BMW', 110);
+const audi = new Car('AUDI', 150);
+
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
+
+audi.accelerate();
+audi.brake();
