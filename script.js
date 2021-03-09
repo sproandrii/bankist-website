@@ -592,29 +592,30 @@ class PersonCl {
 
 // // Coding challenge 2
 
-// class CarCl {
-//   constructor(make, speed) {
-//     this.make = make;
-//     this.speed = speed;
-//   }
-//   accelerate() {
-//     this.speed += 10;
-//     console.log(`${this.make} is going at ${this.speed} km/h`);
-//   }
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
 
-//   brake() {
-//     this.speed -= 5;
-//     console.log(`${this.make} is going at ${this.speed} km/h`);
-//   }
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+    return this;
+  }
 
-//   get speedUS() {
-//     return `SpeedUS: ${this.speed / 1.6} mi/p`;
-//   }
+  get speedUS() {
+    return `SpeedUS: ${this.speed / 1.6} mi/p`;
+  }
 
-//   set speedUS(speed) {
-//     this.speed = speed * 1.6;
-//   }
-// }
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
 
 // const tesla = new CarCl('Tesla', 200);
 // console.log(tesla.speedUS);
@@ -756,39 +757,66 @@ const jay = Object.create(StudentProto);
 jay.init('Jay', 2001, 'Computer Science');
 jay.introduce();
 
+///////////
+///////////
+// 1. Public fields
+// 2. Private fields
+// 3. Public methods
+// 4. Privale methods
+// there are also static version
+
 class Account {
+  // 1. Public fields (instances)
+  locale = navigator.language;
+
+  // 2. Private fields
+  #movements = [];
+  #pin;
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
     // Protected property
-    this._pin = pin;
-    this._movements = [];
-    this.locale = navigator.language;
+    this.#pin = pin;
+    // this._movements = [];
+    // this.locale = navigator.language;
 
     console.log(`Thanks for opening an account, ${this.owner}`);
   }
 
+  // 3. Public methods
+
   // Public interface (API)
   getMovements() {
-    return this._movements;
+    return this.#movements;
   }
 
   deposit(val) {
-    this._movements.push(val);
+    this.#movements.push(val);
+    return this;
   }
   withdraw(val) {
     this.deposit(-val);
-  }
-
-  _approveLoan(val) {
-    return true;
+    return this;
   }
 
   requestLoan(val) {
+    // if (this.#approveLoan(val)) {
     if (this._approveLoan(val)) {
       this.deposit(val);
       console.log('Loan approved');
+      return this;
     }
+  }
+
+  // 4. Private methods
+  // #approveLoan(val) {
+  _approveLoan(val) {
+    return true;
+  }
+  // static methods
+  static helper() {
+    console.log('Helper');
   }
 }
 
@@ -799,5 +827,58 @@ acc1.requestLoan(500);
 acc1._approveLoan(700);
 
 console.log(acc1);
-console.log(acc1._movements);
 console.log(acc1.getMovements());
+
+// console.log(acc1.#movements);
+Account.helper();
+
+acc1.deposit(200).deposit(500).withdraw(900).requestLoan(10000);
+console.log(acc1.getMovements());
+
+// Coding challenge #4
+
+class EVCl extends CarCl {
+  // Privet property
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log(
+      `${this.make} is going at ${this.speed} km/h, with a charge of ${
+        this.#charge
+      }`
+    );
+    return this;
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(
+      `${this.make} is going at ${this.speed} km/h, with a charge of ${
+        this.#charge
+      }`
+    );
+    return this;
+  }
+}
+const revian = new EVCl('Fiat', 50, 3);
+revian
+  .accelerate()
+  .brake()
+  .brake()
+  .accelerate()
+  .accelerate()
+  .chargeBattery(50)
+  .accelerate();
+
+console.log(revian.speedUS);
