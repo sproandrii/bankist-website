@@ -467,7 +467,8 @@ const andrii = new Person('Andrii', 1990);
 // const h1 = document.querySelector('h1');
 // console.dir(h1);
 
-// // Coding challenge
+// // Coding challenge 1
+
 // const Car = function (make, speed) {
 //   this.make = make;
 //   this.speed = speed;
@@ -494,14 +495,13 @@ const andrii = new Person('Andrii', 1990);
 // audi.brake();
 
 // ES6 Classes
-
 // class expression
 // const PersonCl = class {};
 
 // class declaration
 class PersonCl {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
@@ -511,16 +511,117 @@ class PersonCl {
   }
 
   greet() {
-    console.log(`Hey ${this.firstName}`);
+    console.log(`Hey ${this.fullName}`);
+  }
+
+  get age() {
+    return 2021 - this.birthYear;
+  }
+
+  // Set a property that already exists
+  set fullName(name) {
+    console.log(name);
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  // Static method
+  static hey() {
+    console.log('Hey there ✋');
   }
 }
 
-const dima = new PersonCl('Dima', 1988);
+const dima = new PersonCl('Dima Slobodian', 1988);
 console.log(dima);
 dima.calcAge();
+console.log(dima.age);
 
 // PersonCl.prototype.greet = function () {
 //   console.log(`Hey ${this.firstName}`);
 // };
-
 dima.greet();
+
+const walter = new PersonCl('Walter White', 1995);
+
+const account = {
+  owner: 'Andrii',
+  movements: [300, 100, 50, 80],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latestSet(mov) {
+    return this.movements.push(mov);
+  },
+};
+
+console.log(account.movements);
+console.log(account.latest);
+
+account.latestSet = 700;
+
+console.log(account.movements);
+
+const PersonProto = {
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2000;
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto);
+
+const anton = Object.create(PersonProto);
+anton.init('Anton', 2005);
+console.log(anton);
+anton.calcAge();
+
+// Coding challenge 2
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  get speedUS() {
+    return `SpeedUS: ${this.speed / 1.6} mi/p`;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+const tesla = new CarCl('Tesla', 200);
+console.log(tesla.speedUS);
+tesla.accelerate();
+tesla.accelerate();
+tesla.accelerate();
+tesla.brake();
+console.log(tesla.speedUS);
+tesla.speedUS = 75;
+console.log(tesla.speed);
