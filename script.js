@@ -499,41 +499,41 @@ slider();
 // const PersonCl = class {};
 
 // class declaration
-// class PersonCl {
-//   constructor(fullName, birthYear) {
-//     this.fullName = fullName;
-//     this.birthYear = birthYear;
-//   }
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
 
-//   // Methods will be added to .prototype property
-//   calcAge() {
-//     console.log(2021 - this.birthYear);
-//   }
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
 
-//   greet() {
-//     console.log(`Hey ${this.fullName}`);
-//   }
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
 
-//   get age() {
-//     return 2021 - this.birthYear;
-//   }
+  get age() {
+    return 2021 - this.birthYear;
+  }
 
-//   // Set a property that already exists
-//   set fullName(name) {
-//     console.log(name);
-//     if (name.includes(' ')) this._fullName = name;
-//     else alert(`${name} is not a full name`);
-//   }
+  // Set a property that already exists
+  set fullName(name) {
+    console.log(name);
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
 
-//   get fullName() {
-//     return this._fullName;
-//   }
+  get fullName() {
+    return this._fullName;
+  }
 
-//   // Static method
-//   static hey() {
-//     console.log('Hey there ✋');
-//   }
-// }
+  // Static method
+  static hey() {
+    console.log('Hey there ✋');
+  }
+}
 
 // const dima = new PersonCl('Dima Slobodian', 1988);
 // console.log(dima);
@@ -696,9 +696,108 @@ EV.prototype.accelerate = function () {
     `${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}`
   );
 };
+
 const tesla = new EV('Tesla', 120, 23);
 tesla.chargeBattery(9);
 console.log(tesla);
 tesla.brake();
 tesla.brake();
 tesla.accelerate();
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    // Always need to happen first
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.fullName} and I study ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(
+      `I am ${
+        2021 - this.birthYear
+      } years old, but as a student I feel like a ${2021 - this.birthYear + 10}`
+    );
+  }
+}
+
+const martha = new StudentCl('Martha Jonas', 2000, 'IT');
+martha.introduce();
+martha.calcAge();
+////////////////
+///////////////
+const PersonProto = {
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2001, 'Computer Science');
+jay.introduce();
+
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected property
+    this._pin = pin;
+    this._movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account, ${this.owner}`);
+  }
+
+  // Public interface (API)
+  getMovements() {
+    return this._movements;
+  }
+
+  deposit(val) {
+    this._movements.push(val);
+  }
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  _approveLoan(val) {
+    return true;
+  }
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log('Loan approved');
+    }
+  }
+}
+
+const acc1 = new Account('Andrii', 'hrn', 1111);
+acc1.deposit(200);
+acc1.withdraw(30);
+acc1.requestLoan(500);
+acc1._approveLoan(700);
+
+console.log(acc1);
+console.log(acc1._movements);
+console.log(acc1.getMovements());
